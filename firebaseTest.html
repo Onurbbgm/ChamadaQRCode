@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container" id="app">
+            <h3>Lista de alunos</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Nome:
+                        </th>
+                        <th>
+                            E-mail:
+                        </th>
+                        <th>
+                            Matricula:
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  v-if="alunos.length>0" v-for="aluno in alunos">
+                        <td>
+                            <!-- <p id="nome"></p>     -->
+                            {{aluno.nome}}
+                        </td>
+                        <td>
+                            {{aluno.email}}
+                            <!-- <img  id="imageid" src=""> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>        
+    </body>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.3/firebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var listaAlunos = [];
+        
+    
+        var config = {
+            apiKey: "AIzaSyDlmVNgZrlq4Wh_vXizZk0C87aVIynKy48",
+            authDomain: "listachamada-3d1f5.firebaseapp.com",
+            databaseURL: "https://listachamada-3d1f5.firebaseio.com",
+            projectId: "listachamada-3d1f5",
+            storageBucket: "listachamada-3d1f5.appspot.com",
+            messagingSenderId: "532306340918"
+        };
+        firebase.initializeApp(config);
+    
+        // Get a reference to the database service
+        // service cloud.firestore {
+        //     match /databases/{database}/documents {
+        //         match /{document=**} {
+        //             allow read, write;
+        //         }
+        //     }
+        // }
+        var database = firebase.database();
+        //Write a new student
+        function writeUserData(email, foto, matricula, nome) {
+            firebase.database().ref('alunos/' + matricula).set({
+                nome: nome,
+                email: email,
+                foto : foto
+            });
+        }
+        // var starCountRef = firebase.database().ref('posts/' + postId + '/starCount');
+        // starCountRef.on('value', function(snapshot) {
+        //     updateStarCount(postElement, snapshot.val());
+        // });
+        //var userId = firebase.auth().currentUser.uid;
+        
+        //read all studentes
+        function getStudents(){
+            var todosAlunos = database.ref("alunos");
+            todosAlunos.orderByChild("nome").on("child_added", function(snapshot){
+                //console.log(snapshot.val());
+                listaAlunos.push(snapshot.val());
+                console.log(listaAlunos);
+            });
+        }
+        
+        getStudents();
+        //read a specific student
+        function readAluno (){
+            var matricula = "333333333";
+            return firebase.database().ref('/alunos/' + matricula).once('value').then(function(snapshot) {
+                var foto = (snapshot.val() && snapshot.val().foto);
+                var nome = (snapshot.val() && snapshot.val().nome);
+                document.getElementById("imageid").src = foto;
+                document.getElementById("nome").innerHTML = nome;
+            });
+        }
+        //readAluno();
+        //writeUserData("gandalf@pucrs.br","/Users/brunomoretto/Downloads/Gandalf.jpg","333333333","Gandalf, The Grey ");
+        //listaAlunos.push("teste");
+        //console.log(listaAlunos);
+        var app = new Vue({
+            el: '#app',
+            data:{
+                alunos: listaAlunos
+            }
+        })
+    </script>
+</html>
