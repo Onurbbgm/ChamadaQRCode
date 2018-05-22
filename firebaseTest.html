@@ -1,14 +1,74 @@
 <!DOCTYPE html>
 <html>
     <head>
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </head>
-    <body>
+    <style>
+        #imgAluno {
+            width: 62px;
+            height: 62px;
+        }
+    </style>
+    <body class="bg-light">            
         <div class="container" id="app">
-            <h3>Lista de alunos</h3>
-            <table>
+            <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+                    <a class="navbar-brand" href="#">Chamadas</a>
+                    <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+              
+                    <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+                      <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                          <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Turmas</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Switch account</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+                          <div class="dropdown-menu" aria-labelledby="dropdown01">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                          </div>
+                        </li>
+                      </ul>
+                      <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                      </form>
+                    </div>
+                </nav>
+            <br/>
+            <br/>
+            <br>      
+            <h3>Lista de alunos Turam 128:</h3>
+            <div class="my-3 p-3 bg-white rounded box-shadow">
+                    <h6 class="border-bottom border-gray pb-2 mb-0">Controle de alunos</h6>
+                    <div v-if="alunos.length>0" v-for="aluno in alunos">
+                        <div class="media text-muted pt-3">
+                            <img id="imgAluno" v-bind:src="aluno.val().foto" alt="" class="mr-2 rounded">
+                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                <strong class="d-block text-gray-dark">{{aluno.key}}</strong>
+                                    Nome: {{aluno.val().nome}}, E-mail: {{aluno.val().email}}
+                            </p>
+                        </div>
+                    </div>                                        
+            </div>
+            <table class="table">
                 <thead>
                     <tr>
+                        <th>
+                            Matricula:
+                        </th>
                         <th>
                             Nome:
                         </th>
@@ -16,19 +76,25 @@
                             E-mail:
                         </th>
                         <th>
-                            Matricula:
-                        </th>
+                            Presença
+                        </th>                        
                     </tr>
                 </thead>
                 <tbody>
                     <tr  v-if="alunos.length>0" v-for="aluno in alunos">
                         <td>
-                            <!-- <p id="nome"></p>     -->
-                            {{aluno.nome}}
+                            {{aluno.key}}
                         </td>
                         <td>
-                            {{aluno.email}}
+                            <!-- <p id="nome"></p>     -->
+                            {{aluno.val().nome}}
+                        </td>
+                        <td>
+                            {{aluno.val().email}}
                             <!-- <img  id="imageid" src=""> -->
+                        </td>
+                        <td>
+
                         </td>
                     </tr>
                 </tbody>
@@ -81,8 +147,8 @@
         function getStudents(){
             var todosAlunos = database.ref("alunos");
             todosAlunos.orderByChild("nome").on("child_added", function(snapshot){
-                //console.log(snapshot.val());
-                listaAlunos.push(snapshot.val());
+                //console.log(snapshot.val());    
+                listaAlunos.push(snapshot);
                 console.log(listaAlunos);
             });
         }
