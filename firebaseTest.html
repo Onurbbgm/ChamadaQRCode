@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8"/>
+        <meta http-equiv="Refresh" content="10">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </head>
     <style>
@@ -13,7 +14,7 @@
     <body class="bg-light">            
         <div class="container" id="app">
             <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-                    <a class="navbar-brand" href="#">Chamadas</a>
+                    <a class="navbar-brand" href="#">Chamadas Turma 128</a>
                     <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
                       <span class="navbar-toggler-icon"></span>
                     </button>
@@ -27,7 +28,7 @@
                           <a class="nav-link" href="#">Turmas</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#">Profile</a>
+                          <a class="nav-link" href="#">Disciplinas</a>
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" href="#">Switch account</a>
@@ -42,7 +43,7 @@
                         </li>
                       </ul>
                       <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                        <input  id="search" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                       </form>
                     </div>
@@ -50,55 +51,94 @@
             <br/>
             <br/>
             <br>      
-            <h3>Lista de alunos Turam 128:</h3>
-            <div class="my-3 p-3 bg-white rounded box-shadow">
+            <h3>Chamda Turma 128 - 07/06/2018:</h3>
+            <!-- <div class="my-3 p-3 bg-white rounded box-shadow">
                     <h6 class="border-bottom border-gray pb-2 mb-0">Controle de alunos</h6>
                     <div v-if="alunos.length>0" v-for="aluno in alunos">
                         <div class="media text-muted pt-3">
                             <img id="imgAluno" v-bind:src="aluno.val().foto" alt="" class="mr-2 rounded">
-                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                            <p  class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                                 <strong class="d-block text-gray-dark">{{aluno.key}}</strong>
                                     Nome: {{aluno.val().nome}}, E-mail: {{aluno.val().email}}
-                            </p>
+                                <strong>Aula - {{date}} : {{aluno.val().presenteHj}}</strong> 
+                                <strong>Total Presença - {{aluno.val().totalPre}}</strong>                                                                                                      
+                            </p>                            
                         </div>
                     </div>                                        
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Matricula:
-                        </th>
-                        <th>
-                            Nome:
-                        </th>
-                        <th>
-                            E-mail:
-                        </th>
-                        <th>
-                            Presença
-                        </th>                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr  v-if="alunos.length>0" v-for="aluno in alunos">
-                        <td>
-                            {{aluno.key}}
-                        </td>
-                        <td>
-                            <!-- <p id="nome"></p>     -->
-                            {{aluno.val().nome}}
-                        </td>
-                        <td>
-                            {{aluno.val().email}}
-                            <!-- <img  id="imageid" src=""> -->
-                        </td>
-                        <td>
-
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            </div> -->
+            <div id="refreshPart">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+    
+                            </th>
+                            <th>
+                                Matricula:
+                            </th>
+                            <th>
+                                Nome:
+                            </th>                        
+                            <th>
+                                Entrada:
+                            </th>
+                            <th>
+                                Saida:
+                            </th>
+                            <!-- <th>
+                                Última aula:
+                            </th>   -->
+                            <th>
+                                Total presença:
+                            </th>  
+                            <th>
+                                Total de faltas:
+                            </th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr  v-if="alunos.length>0" v-for="aluno in alunos">
+                            <td>
+                                <img id="imgAluno" v-bind:src="aluno.val().foto" alt="" class="mr-2 rounded">
+                            </td>
+                            <td>
+                                {{aluno.key}}
+                            </td>
+                            <td>
+                                <!-- <p id="nome"></p>     -->
+                                {{aluno.val().nome}}
+                            </td>
+                            <td v-if="aluno.val().presencas.ee1282405==0||aluno.val().presencas.ee1282405==2">
+                                
+                            </td>
+                            <td v-if="aluno.val().presencas.ee1282405==1||aluno.val().presencas.ee1282405==3">
+                                <img src="9989.png" style="width:20%;height:20%;">                        
+                            </td>
+                            <td v-if="aluno.val().presencas.ee1282405==1||aluno.val().presencas.ee1282405==0">
+                                
+                            </td>
+                            <td v-if="aluno.val().presencas.ee1282405==2||aluno.val().presencas.ee1282405==3">
+                                <img src="9989.png" style="width:20%;height:20%;">    
+                            </td>
+                            <!-- <td v-if="aluno.val().presencas.ee1282405==3">
+                                Presente
+                            </td>
+                            <td v-if="aluno.val().presencas.ee1282405==0">
+                                Ausente
+                            </td>
+                            <td v-if="aluno.val().presencas.ee1282405!=0 && aluno.val().presencas.ee1282405!=3">
+                                Meia presença
+                            </td> -->
+                            <td>
+                                {{aluno.val().totalPre}}
+                            </td>
+                            <td>
+                                {{aluno.val().totalAulas - aluno.val().totalPre}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>            
         </div>        
     </body>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -106,6 +146,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/5.0.3/firebase.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         var listaAlunos = [];
         
@@ -129,14 +170,20 @@
         //     }
         // }
         var database = firebase.database();
-        //Write a new student
-        function writeUserData(email, foto, matricula, nome) {
+        //Add a new student
+        function addStudent(email, foto, matricula, nome, turma, disciplina) {
             firebase.database().ref('alunos/' + matricula).set({
                 nome: nome,
                 email: email,
-                foto : foto
+                foto : foto,
+                turma: turma,
+                disciplina: disciplina
             });
         }
+        // addStudent("bouguerra@pucrs.br","/Users/brunomoretto/Documents/Chamada Web/ImagensAlunos/yousseff.jpg", "888888888", "Yousseff Bouguerra", "128","2540L");
+        // addStudent("zanella@pucrs.br","/Users/brunomoretto/Documents/Chamada Web/ImagensAlunos/zanella.jpg", "131043952", "Vicente Zanella", "128","2540L");
+        // addStudent("thehutt@pucrs.br","/Users/brunomoretto/Documents/Chamada Web/ImagensAlunos/jabba.jpg", "999999999", "Jabba Tiure", "128","2540L");
+        // addStudent("gandalf@pucrs.br","/Users/brunomoretto/Documents/Chamada Web/ImagensAlunos/Gandalf.jpg", "111111111", "Gandalf, The Grey", "128","2540L");
         // var starCountRef = firebase.database().ref('posts/' + postId + '/starCount');
         // starCountRef.on('value', function(snapshot) {
         //     updateStarCount(postElement, snapshot.val());
@@ -145,16 +192,30 @@
         
         //read all studentes
         function getStudents(){
+            var listAux = []; 
+            //listaAlunos = [];
             var todosAlunos = database.ref("alunos");
             todosAlunos.orderByChild("nome").on("child_added", function(snapshot){
-                //console.log(snapshot.val());    
-                listaAlunos.push(snapshot);
+                //console.log(snapshot.val());                   
+                listAux.push(snapshot);
                 console.log(listaAlunos);
             });
+            return listAux;
         }
+        listaAlunos = getStudents();
         
-        getStudents();
+        //t();
+        // function re(){            
+        //     //listaAlunos = getStudents();
+        //     $('#refreshPart').load(firebaseTest.html +  ' #refreshPart');
+        // }
+        
+        //setInterval(function(){t();},9000);
+        
+        
         //read a specific student
+
+
         function readAluno (){
             var matricula = "333333333";
             return firebase.database().ref('/alunos/' + matricula).once('value').then(function(snapshot) {
@@ -168,11 +229,21 @@
         //writeUserData("gandalf@pucrs.br","/Users/brunomoretto/Downloads/Gandalf.jpg","333333333","Gandalf, The Grey ");
         //listaAlunos.push("teste");
         //console.log(listaAlunos);
+        var hoje = new Date();
+        var dd = hoje.getDate();
+        var mm = hoje.getMonth(); //January is 0!
+        var yyyy = hoje.getFullYear();
+
+        hoje = dd + '/' + mm + '/'+yyyy;
         var app = new Vue({
             el: '#app',
             data:{
-                alunos: listaAlunos
+                alunos: listaAlunos,
+                date: hoje
+            },
+            method:{
+                
             }
         })
-    </script>
+    </script>   
 </html>
